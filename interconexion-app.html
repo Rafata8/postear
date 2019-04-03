@@ -1,0 +1,60 @@
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+<link rel="import" href="/sender-elementer.html">
+<link rel="import" href="/twitter-element.html">
+<dom-module id="interconexion-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+
+
+            /* traffic-incidents{
+        height: 500px;
+        overflow-y: scroll;
+      } */
+        </style>
+        <h2>Hello [[prop1]]!</h2>
+        <twitter-element apoyo="[[text]]" respuesta="{{respuesta}}"
+            access_token="345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI"
+            secret_token="WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF" consumer_key="sJda8BuhxZ8lGRdwO0CBESo9m"
+            consumer_secret="i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg">
+        </twitter-element>
+
+        <sender-elementer status="{{text}}" respuesta="[[respuesta]]"></sender-elementer>
+
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class InterconexionApp extends Polymer.Element {
+            static get is() { return 'interconexion-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'interconexion-app'
+                    },
+                    text: {
+                        type: String,
+                        value: '',
+                        reflectToAttribute: true
+                    },
+                    respuesta: {
+                        type: String,
+                        value: '',
+                        reflectToAttribute: true
+                    },
+
+                };
+            }
+        }
+
+        window.customElements.define(InterconexionApp.is, InterconexionApp);
+    </script>
+</dom-module>

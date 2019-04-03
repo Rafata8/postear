@@ -1,0 +1,144 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="twitter-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+
+    <iron-ajax id="postear" url="{{ endpoint }}" params="[[params]]" method="GET" handleAs='json'
+      on-response="_response" on-error="error">
+    </iron-ajax>
+
+    <!-- <button on-click="evento">eventooooooooo</button> -->
+
+
+  </template>
+
+  <script>
+    /**
+     * `twitter-element`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class TwitterElement extends Polymer.Element {
+      static get is() { return 'twitter-element'; }
+      static get properties() {
+        return {
+
+          text: {
+            type: String,
+            reflectToAttribute: true,
+            value: ''
+          },
+
+          apoyo: {
+            type: String,
+            reflectToAttribute: true,
+            value: '',
+            observer: 'comprobando'
+          },
+
+          access_token: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          },
+          secret_token: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          },
+          consumer_key: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          },
+          consumer_secret: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+
+          },
+          respuesta: {
+            type: String,
+            value: '',
+            notify: true
+          },
+
+          params: {
+            type: String,
+            computed: "_calculateParams(access_token, secret_token, consumer_key, consumer_secret, text)"
+          },
+          endpoint: {
+            type: String,
+            value: "https://centauro.etsiinf.upm.es/api/aux/twitterPost"
+          },
+        };
+      }
+      _calculateParams(access_token, secret_token, consumer_key, consumer_secret, text) {
+        return {
+          access_token: access_token,
+          secret_token: secret_token,
+          consumer_key: consumer_key,
+          consumer_secret: consumer_secret,
+          text: text
+        };
+      }
+
+      // evento() {
+      //   console.log('evento');
+      //   this.dispatchEvent(new CustomEvent('null-posting-value', { detail: 'ha ido mal', bubbles: true, composed: true }));
+      // }
+
+
+
+      comprobando() {
+        // this.$.postear.headers['Access-Controll-Allow-Origin'] = '*';
+        // console.log(this.$.auxCentauro.headers)
+        // console.log(this.apoyo)
+        if (this.apoyo != '') {
+          this.dispatchEvent(new CustomEvent('posting-request-iniciated', { detail: 'Twitter', bubbles: true, composed: true }));
+
+          this.text = this.apoyo;
+          this.$.postear.generateRequest();
+
+        }
+
+
+
+      }
+
+      _response(e, res) {
+        // console.log('exito')
+        this.respuesta = 'exito';
+        this.dispatchEvent(new CustomEvent('posting-request-success', { detail: 'Twitter', bubbles: true, composed: true }));
+        // console.log(res);
+
+      }
+
+      error(e, res) {
+        // console.log('error')
+        this.respuesta = res;
+        this.dispatchEvent(new CustomEvent('posting-request-error', { detail: 'Twitter', bubbles: true, composed: true }));
+
+      }
+    }
+
+    window.customElements.define(TwitterElement.is, TwitterElement);
+  </script>
+</dom-module>
+
+<!-- https://api.twitter.com/1.1/statuses/update.json?include_entities=true&consumer_key=sJda8BuhxZ8lGRdwO0CBESo9m&consumer_secret=i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg&access_token=345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI&secret_token=WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF&status="holaaa" -->
+
+<!-- "{
+    'consumer_key':'sJda8BuhxZ8lGRdwO0CBESo9m','consumer_secret'='i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg',
+    'access_token'='345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI','secret_token'='WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF'}" -->
