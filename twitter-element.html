@@ -68,11 +68,6 @@
             reflectToAttribute: true
 
           },
-          respuesta: {
-            type: String,
-            value: '',
-            notify: true
-          },
 
           params: {
             type: String,
@@ -119,7 +114,7 @@
 
       _response(e, res) {
         // console.log('exito')
-        this.respuesta = 'exito';
+        // this.respuesta = 'exito';
         this.dispatchEvent(new CustomEvent('posting-request-success', { detail: 'Twitter', bubbles: true, composed: true }));
         // console.log(res);
 
@@ -127,7 +122,7 @@
 
       error(e, res) {
         // console.log('error')
-        this.respuesta = res;
+        // this.respuesta = res;
         this.dispatchEvent(new CustomEvent('posting-request-error', { detail: 'Twitter', bubbles: true, composed: true }));
 
       }
