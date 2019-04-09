@@ -1,6 +1,7 @@
 <link rel="import" href="./bower_components/polymer/polymer-element.html">
 <link rel="import" href="/sender-elementer.html">
 <link rel="import" href="/twitter-element.html">
+<link rel="import" href="/for-reddit-component.html">
 <dom-module id="interconexion-app">
     <template>
         <style>
@@ -16,13 +17,16 @@
       } */
         </style>
         <h2>Hello [[prop1]]!</h2>
-        <twitter-element apoyo="[[text]]" respuesta="{{respuesta}}"
+        <twitter-element apoyo="[[text]]"
             access_token="345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI"
             secret_token="WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF" consumer_key="sJda8BuhxZ8lGRdwO0CBESo9m"
             consumer_secret="i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg">
         </twitter-element>
 
         <sender-elementer status="{{text}}" respuesta="[[respuesta]]"></sender-elementer>
+        <for-reddit-component apoyo="{{text}}"></for-reddit-component>
+
+
 
 
     </template>
@@ -44,12 +48,7 @@
                         type: String,
                         value: '',
                         reflectToAttribute: true
-                    },
-                    respuesta: {
-                        type: String,
-                        value: '',
-                        reflectToAttribute: true
-                    },
+                    }
 
                 };
             }
