@@ -11,122 +11,7 @@
     </style>
 
 
-    <iron-ajax id="request_token" url="https://www.reddit.com/api/v1/authorize" method="POST"
-       params="{{token_params}}" handleAs='json' on-response="_response"
-      on-error="_error_received" last-error="{{last_error}}">
-    </iron-ajax>
-
-    <button on-click="evento">eventooooooooo</button>
-
-
-  </template>
-
-  <script>
-    /**
-     * `for-reddit-component`
-     * 
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class ForRedditComponent extends Polymer.Element {
-      static get is() { return 'for-reddit-component'; }
-      static get properties() {
-        return {
-
-          token_headers:{
-            type:Object,
-            value: {"User-Agent": "ChangeMeClient/0.1 by YourUsername"}
-          },
-          post_data:{
-            type:Object, 
-            value:{"grant_type": "password", "username": "Rafata8", "password": "escalofrios12"}
-          },
-          client_id:{
-            type:String,
-            value:'n_wOWd2y3k5Ngg'
-          },
-          response_type:{
-            type:String,
-            value:'code'
-          },
-          state:{
-            type:String,
-            value: 'poaajnfrfr34lm'
-          },
-          redirect_uri:{
-            type:String,
-            value: 'http://127.0.0.1:8081/components/twitter-element/'
-          },
-          duration:{
-            type:String,
-            value: 'temporary'
-          },
-          scope:{
-            type:String,
-            value: 'submit'
-          },
-
-          params: {
-            type: String,
-            computed: "_calculateParams(client_id, response_type, state, redirect_uri, duration,scope)"
-          },
-          endpoint: {
-            type: String,
-            value: "https://www.reddit.com/user/rafata8/comments/.json"
-          },
-        };
-      }
-
-      _response(e, res) {
-        console.log(res)
-      }
-      _error_received(e) {
-        console.log(e)
-      }
-      evento() {
-        this.$.request_token.generateRequest();
-      }
-
-      _calculateParams(client_id, response_type, state, redirect_uri, duration,scope) {
-        return {
-          client_id: client_id,
-          response_type: response_type,
-          state: state,
-          redirect_uri: redirect_uri,
-          duration: duration,
-          scope:scope
-        };
-      }
-
-    }
-
-    window.customElements.define(ForRedditComponent.is, ForRedditComponent);
-  </script>
-</dom-module>
-
-<!-- https://api.twitter.com/1.1/statuses/update.json?include_entities=true&consumer_key=sJda8BuhxZ8lGRdwO0CBESo9m&consumer_secret=i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg&access_token=345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI&secret_token=WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF&status="holaaa" -->
-
-<!-- "{
-    'consumer_key':'sJda8BuhxZ8lGRdwO0CBESo9m','consumer_secret'='i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg',
-    'access_token'='345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI','secret_token'='WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF'}" -->
-
-<!-- 
-    <link rel="import" href="/bower_components/polymer/polymer-element.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-
-
-<dom-module id="for-reddit-component">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-
-
-    <iron-ajax id="postear" url="{{ endpoint }}" params="[[params]]" method="GET" handleAs='json'
+    <iron-ajax id="postear" url="{{ endpoint }}" params="[[params]]" method="POST" handleAs='json'
       on-response="_response" on-error="error">
     </iron-ajax>
 
@@ -149,7 +34,7 @@
       static get properties() {
         return {
 
-          text: {
+          title: {
             type: String,
             reflectToAttribute: true,
             value: ''
@@ -161,9 +46,13 @@
             value: '',
             observer: 'comprobando'
           },
-          client_id: {
+          username:{
+            type:String,
+            value:'rafata8'
+          },
+          access_token: {
             type: String,
-            value: 'n_wOWd2y3k5Ngg'
+            value: '216231274825--Rroq_woa4nqTE-NOGyOUpdOa5k'
           },
           client_secret:{
             type:String,
@@ -172,30 +61,25 @@
 
           params: {
             type: String,
-            computed: "_calculateParams(client_id, response_type, state, redirect_uri, duration,scope)"
+            computed: "_calculateParams(username, access_token, title)"
           },
           endpoint: {
             type: String,
-            value: "https://www.reddit.com/user/rafata8/comments/.json"
+            value: "https://centauro.etsiinf.upm.es/api/aux/redditPost"
           },
         };
       }
 
-      _response(e, res) {
-        console.log(res)
-      }
-      _error_received(e) {
-        console.log(e)
-      }
+
       evento() {
-        this.$.request_token.generateRequest();
+        this.$.postear.generateRequest();
       }
 
-      _calculateParams(client_id, client_secret,text) {
+      _calculateParams(username, access_token, title) {
         return {
-          client_id: client_id,
-          client_secret:client_secret,
-          text:text
+          username: username,
+          access_token:access_token,
+          title:title
         };
       }
 
@@ -206,7 +90,7 @@
         if (this.apoyo != '') {
           this.dispatchEvent(new CustomEvent('posting-request-iniciated', { detail: 'Reddit', bubbles: true, composed: true }));
 
-          this.text = this.apoyo;
+          this.title = this.apoyo;
           this.$.postear.generateRequest();
 
         }
