@@ -11,7 +11,7 @@
     </style>
 
 
-    <iron-ajax id="postear" url="{{ endpoint }}" params="[[params]]" method="GET" handleAs='json'
+    <iron-ajax id="postear" url="{{ endpoint }}" params="[[params]]" method="POST" handleAs='json'
       on-response="_response" on-error="error">
     </iron-ajax>
 
@@ -104,6 +104,9 @@
           this.dispatchEvent(new CustomEvent('posting-request-iniciated', { detail: 'Twitter', bubbles: true, composed: true }));
 
           this.text = this.apoyo;
+          // setTimeout(function () {
+          //   this.$.postear.generateRequest();
+          // }.bind(this), Math.floor(Math.random() * 1000));
           this.$.postear.generateRequest();
 
         }

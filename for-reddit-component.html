@@ -15,8 +15,6 @@
       on-response="_response" on-error="error">
     </iron-ajax>
 
-    <button on-click="evento">eventooooooooo</button>
-
 
   </template>
 
@@ -46,17 +44,17 @@
             value: '',
             observer: 'comprobando'
           },
-          username:{
-            type:String,
-            value:'rafata8'
+          username: {
+            type: String,
+            value: 'rafata8'
           },
           access_token: {
             type: String,
-            value: '216231274825--Rroq_woa4nqTE-NOGyOUpdOa5k'
+            value: '216231274825-2hH0c-4zFanaPPaMGFa3zmILdYs'
           },
-          client_secret:{
-            type:String,
-            value:"Mxj644o7sl5gw80A9xSv-2fyMKY"
+          client_secret: {
+            type: String,
+            value: "Mxj644o7sl5gw80A9xSv-2fyMKY"
           },
 
           params: {
@@ -71,15 +69,11 @@
       }
 
 
-      evento() {
-        this.$.postear.generateRequest();
-      }
-
       _calculateParams(username, access_token, title) {
         return {
           username: username,
-          access_token:access_token,
-          title:title
+          access_token: access_token,
+          title: title
         };
       }
 
@@ -91,8 +85,10 @@
           this.dispatchEvent(new CustomEvent('posting-request-iniciated', { detail: 'Reddit', bubbles: true, composed: true }));
 
           this.title = this.apoyo;
+          // setTimeout(function () {
+          //   this.$.postear.generateRequest();
+          // }.bind(this), Math.floor(Math.random() * 1000));
           this.$.postear.generateRequest();
-
         }
 
 
@@ -119,4 +115,3 @@
     window.customElements.define(ForRedditComponent.is, ForRedditComponent);
   </script>
 </dom-module>
-
