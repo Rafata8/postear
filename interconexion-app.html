@@ -2,6 +2,8 @@
 <link rel="import" href="/sender-elementer.html">
 <link rel="import" href="/twitter-element.html">
 <link rel="import" href="/for-reddit-component.html">
+<link rel="import" href="/reddit-login.html">
+<link rel="import" href="/twitter-login.html">
 <dom-module id="interconexion-app">
     <template>
         <style>
@@ -17,15 +19,16 @@
       } */
         </style>
         <h2>Hello [[prop1]]!</h2>
-        <twitter-element apoyo="[[text]]"
+        <!-- <twitter-element apoyo="[[text]]"
             access_token="345489644-5CWj3KQXBIAHCTKRLGfbDrFHbWySxveSiDHQ5BAI"
             secret_token="WjX0C4YqiJcUj9jLrTKocQMl3Flt6O2coDPEl8avtXWdF" consumer_key="sJda8BuhxZ8lGRdwO0CBESo9m"
             consumer_secret="i01cchRLzTYNPjAQaokXECFAbYQkPBkCqccPJxcfvQwEh01Pcg">
-        </twitter-element>
+        </twitter-element> -->
 
         <sender-elementer status="{{text}}"></sender-elementer>
-        <for-reddit-component apoyo="{{text}}"></for-reddit-component>
-
+        <for-reddit-component apoyo="{{text}}" access_token=[[access_token]]></for-reddit-component>
+        <reddit-login access_token={{access_token}}></reddit-login>
+        <twitter-login></twitter-login>
 
 
 
@@ -48,6 +51,10 @@
                         type: String,
                         value: '',
                         reflectToAttribute: true
+                    },
+                    access_token: {
+                        type: String,
+                        value: ''
                     }
 
                 };
