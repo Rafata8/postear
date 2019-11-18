@@ -18,7 +18,7 @@ polymer login for reddit
       on-error="_error_received" last-error="{{last_error}}">
     </iron-ajax>
 
-    <iron-ajax id="request_username" url="https://www.reddit.com/api/v1/me" params="[[params]]" method="GET" handleAs='json'
+    <iron-ajax id="request_username" url="https://oauth.reddit.com/api/v1/me" headers="[[headersMe]]" method="GET" handleAs='json'
       on-response="_getUser" on-error="_error_received2">
     </iron-ajax>
 
@@ -120,7 +120,18 @@ polymer login for reddit
           type: String,
           computed: "_token_params(access_code, redirect_uri)"
         },
+        headersMe: {
+          type: String,
+          computed: "_token_headersMe(access_token)"
+        },
         last_error: String,
+        usuario: {
+          type: String,
+          notify: true
+        },
+      },
+      _token_headersMe: function (access_token) {
+        return { Authorization: "Bearer " + access_token };
       },
       _token_headers: function (client_id, client_secret) {
         return { Authorization: "Basic " + btoa(client_id + ":" + client_secret) };
@@ -146,7 +157,8 @@ polymer login for reddit
       },
 
       _getUser: function (event, detail) {
-        console.log(detail.response)
+        this.usuario=detail.response.name
+        console.log(this.usuario)
       },
 
       _error_received2: function (event, detail) {

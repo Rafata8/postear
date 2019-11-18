@@ -1,5 +1,6 @@
 <link rel="import" href="/bower_components/polymer/polymer-element.html">
 <link rel="import" href="/bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
 
 <!-- botones son de https://codemyui.com/gradient-buttons-with-glint-on-hover/ 
 la verdad es que estan guapos-->
@@ -15,6 +16,40 @@ la verdad es que estan guapos-->
 
             :host {
                 display: block;
+                border: 1px solid blue;
+                padding: 10px;
+                --my-fondo: white;
+                background: var(--my-fondo);
+                --my-letra: black;
+                color: var(--my-letra);
+            }
+
+            textarea {
+                background: var(--my-fondo);
+                color: var(--my-letra);
+            }
+
+
+
+            #noche {
+                cursor: pointer;
+            }
+
+            paper-button.green {
+                background-color: black;
+                color: white;
+            }
+
+            paper-button.green[active]:hover {
+                background-color: green;
+            }
+
+            paper-button.green:hover {
+                background-color: orange;
+            }
+
+            paper-button.green[active] {
+                background-color: blue;
             }
 
             .buttons {
@@ -118,6 +153,10 @@ la verdad es que estan guapos-->
             }
         </style>
 
+        <paper-button toggles id="noche" on-tap="cambio" class="green">Modo noche</paper-button>
+        <input id="cambiarLetra" type="color" value="#000000" on-input="letra">
+        <input id="cambiarFondo" type="color" value="#ffffff" on-input="fondo">
+
         <form action="mensaje">
             <textarea name="message" rows="8" cols="40" placeholder="¿Qué quieres postear?"
                 value="{{apoyo::input}}"></textarea>
@@ -202,6 +241,31 @@ la verdad es que estan guapos-->
                 window.removeEventListener('posting-request-iniciated', this._readyListener);
                 window.removeEventListener('posting-request-error', this._errorListener);
                 window.removeEventListener('posting-request-success', this._exitoListener);
+            }
+
+            cambio() {
+
+                if (this.$.noche.active) {
+                    this.updateStyles({ '--my-fondo': 'black' });
+                    this.updateStyles({ '--my-letra': 'white' });
+                    this.$.cambiarLetra.value='#ffffff'
+                    this.$.cambiarFondo.value='#000000'
+                }
+                else {
+                    this.updateStyles({ '--my-fondo': 'white' });
+                    this.updateStyles({ '--my-letra': 'black' });
+                    this.$.cambiarLetra.value='#000000'
+                    this.$.cambiarFondo.value='#ffffff'
+                }
+
+            }
+
+            letra(e) {
+                    this.updateStyles({ '--my-letra': e.path[0].value });     
+            }
+
+            fondo(e) {
+                    this.updateStyles({ '--my-fondo': e.path[0].value });     
             }
 
             _ready(e) {
