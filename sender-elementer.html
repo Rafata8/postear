@@ -1,6 +1,8 @@
 <link rel="import" href="/bower_components/polymer/polymer-element.html">
 <link rel="import" href="/bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/emoji-selector/emoji-selector.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
 
 <!-- botones son de https://codemyui.com/gradient-buttons-with-glint-on-hover/ 
 la verdad es que estan guapos-->
@@ -25,8 +27,12 @@ la verdad es que estan guapos-->
             }
 
             textarea {
+                
                 background: var(--my-fondo);
                 color: var(--my-letra);
+                /* position: relative;
+                top: 15px;
+                 */
             }
 
 
@@ -154,12 +160,19 @@ la verdad es que estan guapos-->
         </style>
 
         <paper-button toggles id="noche" on-tap="cambio" class="green">Modo noche</paper-button>
-        <input id="cambiarLetra" type="color" value="#000000" on-input="letra">
-        <input id="cambiarFondo" type="color" value="#ffffff" on-input="fondo">
+        Letra: <input id="cambiarLetra" type="color" value="#000000" on-input="letra">
+        Fondo: <input id="cambiarFondo" type="color" value="#ffffff" on-input="fondo">
+        <!-- 
+        <paper-input label="text input"></paper-input>
+
+        <paper-input label="needs moar emoji">
+            <emoji-selector suffix></emoji-selector>
+        </paper-input> -->
 
         <form action="mensaje">
             <textarea name="message" rows="8" cols="40" placeholder="¿Qué quieres postear?"
                 value="{{apoyo::input}}"></textarea>
+
 
         </form>
 
@@ -248,24 +261,24 @@ la verdad es que estan guapos-->
                 if (this.$.noche.active) {
                     this.updateStyles({ '--my-fondo': 'black' });
                     this.updateStyles({ '--my-letra': 'white' });
-                    this.$.cambiarLetra.value='#ffffff'
-                    this.$.cambiarFondo.value='#000000'
+                    this.$.cambiarLetra.value = '#ffffff'
+                    this.$.cambiarFondo.value = '#000000'
                 }
                 else {
                     this.updateStyles({ '--my-fondo': 'white' });
                     this.updateStyles({ '--my-letra': 'black' });
-                    this.$.cambiarLetra.value='#000000'
-                    this.$.cambiarFondo.value='#ffffff'
+                    this.$.cambiarLetra.value = '#000000'
+                    this.$.cambiarFondo.value = '#ffffff'
                 }
 
             }
 
             letra(e) {
-                    this.updateStyles({ '--my-letra': e.path[0].value });     
+                this.updateStyles({ '--my-letra': e.path[0].value });
             }
 
             fondo(e) {
-                    this.updateStyles({ '--my-fondo': e.path[0].value });     
+                this.updateStyles({ '--my-fondo': e.path[0].value });
             }
 
             _ready(e) {
