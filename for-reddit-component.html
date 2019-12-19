@@ -1,0 +1,115 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="for-reddit-component">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+
+    <iron-ajax id="postear" url="{{ endpoint }}" params="[[params]]" method="POST" handleAs='json'
+      on-response="_response" on-error="error">
+    </iron-ajax>
+
+
+  </template>
+
+  <script>
+    /**
+     * `for-reddit-component`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ForRedditComponent extends Polymer.Element {
+      static get is() { return 'for-reddit-component'; }
+      static get properties() {
+        return {
+
+          title: {
+            type: String,
+            reflectToAttribute: true,
+            value: ''
+          },
+
+          apoyo: {
+            type: String,
+            reflectToAttribute: true,
+            value: '',
+            observer: 'comprobando'
+          },
+          username: {
+            type: String,
+            value: ''
+          },
+          access_token: {
+            type: String
+          },
+          client_secret: {
+            type: String
+          },
+
+          params: {
+            type: String,
+            computed: "_calculateParams(username, access_token, title)"
+          },
+          endpoint: {
+            type: String,
+            value: "https://centauro.ls.etsiinf.upm.es/api/aux/redditPost"
+          },
+        };
+      }
+
+
+      _calculateParams(username, access_token, title) {
+        return {
+          username: username,
+          access_token: access_token,
+          title: title
+        };
+      }
+
+      comprobando() {
+        // this.$.postear.headers['Access-Controll-Allow-Origin'] = '*';
+        // console.log(this.$.auxCentauro.headers)
+        // console.log(this.apoyo)
+        if (this.apoyo != '') {
+          this.dispatchEvent(new CustomEvent('posting-request-iniciated', { detail: 'Reddit', bubbles: true, composed: true }));
+
+          this.title = this.apoyo;
+          // setTimeout(function () {
+          //   this.$.postear.generateRequest();
+          // }.bind(this), Math.floor(Math.random() * 1000));
+          this.$.postear.generateRequest();
+        }
+
+
+
+      }
+
+      _response(e, res) {
+        // console.log('exito')
+        // this.respuesta = 'exito';
+        this.dispatchEvent(new CustomEvent('posting-request-success', { detail: 'Reddit', bubbles: true, composed: true }));
+        // console.log(res);
+
+      }
+
+      error(e, res) {
+        // console.log('error')
+        // this.respuesta = res;
+        this.dispatchEvent(new CustomEvent('posting-request-error', { detail: 'Reddit', bubbles: true, composed: true }));
+
+      }
+
+    }
+
+    window.customElements.define(ForRedditComponent.is, ForRedditComponent);
+  </script>
+</dom-module>

@@ -1,0 +1,473 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+<link rel="import" href="/bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/emoji-selector/emoji-selector.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+
+<!-- botones son de https://codemyui.com/gradient-buttons-with-glint-on-hover/ 
+la verdad es que estan guapos-->
+
+<dom-module id="sender-elementer">
+    <template>
+        <style>
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            :host {
+                display: block;
+                border: 1px solid blue;
+                padding: 10px;
+                --my-fondo: white;
+                background: var(--my-fondo);
+                --my-letra: black;
+                color: var(--my-letra);
+            }
+
+            textarea {
+
+                background: var(--my-fondo);
+                color: var(--my-letra);
+                /* position: relative;
+                top: 15px;
+                 */
+            }
+
+
+
+            #noche {
+                cursor: pointer;
+            }
+
+            paper-button.green {
+                background-color: black;
+                color: white;
+            }
+
+            paper-button.green[active]:hover {
+                background-color: green;
+            }
+
+            paper-button.green:hover {
+                background-color: orange;
+            }
+
+            paper-button.green[active] {
+                background-color: blue;
+            }
+
+            .buttons {
+                /* display:block; */
+                margin: 10%;
+                text-align: center;
+            }
+
+            .btn-hover {
+                width: 200px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #fff;
+                cursor: pointer;
+                margin: 20px;
+                height: 55px;
+                text-align: center;
+                border: none;
+                background-size: 300% 100%;
+
+                border-radius: 50px;
+                /* moz-transition: all .4s ease-in-out; */
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+            .btn-hover:hover {
+                background-position: 100% 0;
+                /* moz-transition: all .4s ease-in-out; */
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+            .btn-hover:focus {
+                outline: none;
+            }
+
+            .btn-hover.color-2 {
+                background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
+                box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
+            }
+
+            paper-spinner[active] {
+                display: inline-block;
+                margin-left: 5px;
+                height: 16px;
+                width: 16px;
+            }
+
+            paper-spinner {
+                display: none;
+
+            }
+
+
+            .redes {
+                margin: 7px;
+                /* height: 10px;
+                width:20px; */
+            }
+
+            .cross {
+                display: none;
+                color: white;
+                font-size: 1.2em;
+                font-weight: bold;
+                background-color: #e43603;
+                border-radius: 40%;
+            }
+
+            .tic {
+                display: none;
+                color: white;
+                font-size: 1.2em;
+                font-weight: bold;
+                background-color: green;
+                border-radius: 50%;
+            }
+
+            /* .rueda {
+                
+                display: inline-block;
+                /* align-items: center;
+                justify-content: center; 
+            } */
+
+            textarea {
+                display: block;
+                box-sizing: padding-box;
+                overflow: hidden;
+
+                padding: 10px;
+                width: 250px;
+                font-size: 14px;
+                /* margin: 50px auto; */
+                border-radius: 6px;
+                box-shadow: 2px 2px 8px rgba(black, .3);
+                border: 0;
+            }
+
+            /* nieve */
+            .editor-stage .snow {
+                height: 50px;
+                background: rgb(223, 54, 54);
+            }
+
+            .snow {
+                position: fixed;
+                pointer-events: none;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100vh;
+                background: none;
+                background-image: url('https://s3-eu-west-1.amazonaws.com/static-ressources/s1.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s2.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s3.png');
+                z-index: 100;
+                -webkit-animation: snow 1s linear infinite;
+                -moz-animation: snow 1s linear infinite;
+                -ms-animation: snow 1s linear infinite;
+                animation: snow 1s linear infinite;
+            }
+
+            @keyframes snow {
+                0% {
+                    background-position: 0px 0px, 0px 0px, 0px 0px;
+                }
+
+                50% {
+                    background-position: 500px 500px, 100px 200px, -100px 150px;
+                }
+
+                100% {
+                    background-position: 500px 1000px, 200px 400px, -100px 300px;
+                }
+            }
+
+            @-moz-keyframes snow {
+                0% {
+                    background-position: 0px 0px, 0px 0px, 0px 0px;
+                }
+
+                50% {
+                    background-position: 500px 500px, 100px 200px, -100px 150px;
+                }
+
+                100% {
+                    background-position: 400px 1000px, 200px 400px, 100px 300px;
+                }
+            }
+
+            @-webkit-keyframes snow {
+                0% {
+                    background-position: 0px 0px, 0px 0px, 0px 0px;
+                }
+
+                50% {
+                    background-position: 500px 500px, 100px 200px, -100px 150px;
+                }
+
+                100% {
+                    background-position: 500px 1000px, 200px 400px, -100px 300px;
+                }
+            }
+
+            @-ms-keyframes snow {
+                0% {
+                    background-position: 0px 0px, 0px 0px, 0px 0px;
+                }
+
+                50% {
+                    background-position: 500px 500px, 100px 200px, -100px 150px;
+                }
+
+                100% {
+                    background-position: 500px 1000px, 200px 400px, -100px 300px;
+                }
+            }
+
+            /* fin de la nieve */
+        </style>
+
+        <div class="snow"></div>
+
+
+        <paper-button toggles id="noche" on-tap="cambio" class="green">Modo noche</paper-button>
+        Letra: <input id="cambiarLetra" type="color" value="#000000" on-input="letra">
+        Fondo: <input id="cambiarFondo" type="color" value="#ffffff" on-input="fondo">
+        <!-- 
+        <paper-input label="text input"></paper-input>
+
+        <paper-input label="needs moar emoji">
+            <emoji-selector suffix></emoji-selector>
+        </paper-input> -->
+
+        <form action="mensaje">
+            <textarea name="message" rows="8" cols="40" placeholder="¿Qué quieres postear?"
+                value="{{apoyo::input}}"></textarea>
+
+
+        </form>
+
+        <section>
+            <template id="repes" is="dom-repeat" items="{{arraya}}">
+                <div class="redes">
+                    <span>[[item.name]]
+                        <paper-spinner active$="[[item.value]]"></paper-spinner>
+                        <span id="[[item.name]]1" class="cross"> &times </span>
+                        <span id="[[item.name]]2" class="tic">&#10004</span>
+                    </span> <br>
+                </div>
+            </template>
+        </section>
+
+        <!-- <textarea class='autoExpand' value="{{apoyo::input}}" rows='3' cols='40' data-min-rows='3'
+            placeholder='¿Qué quieres postear?'></textarea> -->
+
+        <button class="btn-hover color-2" on-click="enviar">Postear en redes</button>
+
+        <!-- <button on-click="aux">aux feo</button> -->
+
+        <!-- <paper-share-button facebook google twitter email url="https://example.org"></paper-share-button> -->
+
+
+    </template>
+
+    <script>
+        /**
+         * `twitter-element`
+         * 
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class SenderElementer extends Polymer.Element {
+            static get is() { return 'sender-elementer'; }
+            static get properties() {
+                return {
+                    apoyo: {
+                        type: String,
+                        value: ''
+                    },
+                    status: {
+                        type: String,
+                        value: '',
+                        notify: true
+                    },
+                    redes: {
+                        type: Object,
+                        value: function () { return {} }
+                    },
+                    arraya: {
+                        type: Array,
+                        value: function () { return [] }
+
+                    }
+
+                };
+            }
+
+            constructor() {
+                super();
+                this._readyListener = this._ready.bind(this);
+                this._errorListener = this._errorRecieved.bind(this);
+                this._exitoListener = this._exitoReceived.bind(this);
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                window.addEventListener('posting-request-iniciated', this._readyListener);
+                window.addEventListener('posting-request-error', this._errorListener);
+                window.addEventListener('posting-request-success', this._exitoListener);
+            }
+
+            disconnectedCallback() {
+                super.disconnectedCallback();
+                window.removeEventListener('posting-request-iniciated', this._readyListener);
+                window.removeEventListener('posting-request-error', this._errorListener);
+                window.removeEventListener('posting-request-success', this._exitoListener);
+            }
+
+            cambio() {
+
+                if (this.$.noche.active) {
+                    this.updateStyles({ '--my-fondo': 'black' });
+                    this.updateStyles({ '--my-letra': 'white' });
+                    this.$.cambiarLetra.value = '#ffffff'
+                    this.$.cambiarFondo.value = '#000000'
+                }
+                else {
+                    this.updateStyles({ '--my-fondo': 'white' });
+                    this.updateStyles({ '--my-letra': 'black' });
+                    this.$.cambiarLetra.value = '#000000'
+                    this.$.cambiarFondo.value = '#ffffff'
+                }
+
+            }
+
+            letra(e) {
+                this.updateStyles({ '--my-letra': e.path[0].value });
+            }
+
+            fondo(e) {
+                this.updateStyles({ '--my-fondo': e.path[0].value });
+            }
+
+            _ready(e) {
+                // console.log('hola')
+                // this.push('redes', { name: e.detail, loading: true })
+                this.set('redes.' + e.detail, true);
+                // this.set('redes.reddit', true);
+                // console.log(this.redes)
+                // this.$.repes.render();
+
+                this.arraya = this._toArray(this.redes);
+                // console.log(this.redes);
+            }
+
+            _errorRecieved(e) {
+                let red = e.detail;
+                this.set('redes.' + red, false);
+                this.arraya = this._toArray(this.redes);
+                // console.log(this.redes);
+                let cambiar = (this.shadowRoot.querySelector('#' + red + '1'));
+                cambiar.style.display = "inline-block";
+                this.status = '';
+            }
+
+            _exitoReceived(e) {
+                this.apoyo = '';
+                let red = e.detail;
+                this.set('redes.' + red, false);
+                this.arraya = this._toArray(this.redes);
+
+                let cambiar = (this.shadowRoot.querySelector('#' + red + '2'));
+                cambiar.style.display = "inline-block";
+                this.status = '';
+            }
+
+            enviar() {
+                this.redes = [];
+                if (this.apoyo == '') {
+                    let respuesta = 'Para postear deberias escribir un mensaje... (y no dejarlo en blanco)';
+
+                    alert(respuesta);
+                    // for (let i = 0; i < this.arraya.length; i++) {
+                    //     // console.log(this.arraya[i]);
+                    //     let cadena = 'arraya[' + i + '].value';
+                    //     this.arraya[1].value = false;
+                    //     this.notifyPath('arraya[1].value');}
+                }
+                // }
+                // else if ((this.apoyo == this.status)) {
+                //     let respuesta = 'Por seguridad, no se permite postear 2 veces lo mismo, lo siento :(';
+                //     alert(respuesta);
+
+                //     for (let prop in this.redes) {
+                //         // console.log('hola');
+                //         console.log(this.redes[prop]);
+                //     }
+                // }
+                else {
+                    this.arraya = [];
+                    this.redes = [];
+                    this.$.repes.render();
+                    this.status = this.apoyo;
+                    this.apoyo = '';
+                }
+
+            }
+
+            enBlanco() {
+                // for(let i=0;i<this.arraya.length;i++){
+                //     // console.log(1);
+                //     let objeto=this.arraya[i];
+                //     this.set(objeto+'.name',false);
+                // }
+                // console.log(this.redes);
+                console.log('hola');
+                for (let prop in this.redes) {
+                    // console.log('hola');
+                    console.log(this.redes[prop]);
+                }
+
+
+                // let ayuda=this.arraya;
+                // this.arraya=[];
+                // this.push('arraya',ayuda);
+                // this.$.repes.render();
+            }
+
+            search(nameKey) {
+                for (var i = 0; i < this.redes.length; i++) {
+                    if (this.redes[i].name === nameKey) {
+                        return i;
+                    }
+                }
+            }
+
+            _toArray(obj) {
+                return Object.keys(obj).map(function (key) {
+                    return {
+                        name: key,
+                        value: obj[key]
+                    };
+                });
+            }
+        }
+
+        window.customElements.define(SenderElementer.is, SenderElementer);
+    </script>
+</dom-module>
