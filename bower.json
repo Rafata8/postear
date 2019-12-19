@@ -4,8 +4,7 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "iron-ajax": "^2.x.x",
-    "paper-spinner": "PolymerElements/paper-spinner#^2.x.x",
-    "paper-input": "PolymerElements/paper-input#^2.x.x"
+    "paper-spinner": "PolymerElements/paper-spinner#^2.x.x"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
