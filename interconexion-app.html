@@ -1,0 +1,71 @@
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+<link rel="import" href="/sender-elementer.html">
+<link rel="import" href="/twitter-element.html">
+<link rel="import" href="/for-reddit-component.html">
+<link rel="import" href="/reddit-login.html">
+<link rel="import" href="/twitter-login.html">
+<dom-module id="interconexion-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+
+
+            /* traffic-incidents{
+        height: 500px;
+        overflow-y: scroll;
+      } */
+      /* access_token="" */
+
+        </style>
+        <h2>Hello [[prop1]]!</h2>
+        <twitter-element apoyo="[[text]]"
+            secret_token="" consumer_key=""
+            consumer_secret="">
+        </twitter-element>
+
+        <sender-elementer status="{{text}}"></sender-elementer>
+        <for-reddit-component apoyo="{{text}}" username=[[usuario]] access_token=[[access_token]]></for-reddit-component>
+        <reddit-login usuario={{usuario}} access_token={{access_token}}></reddit-login>
+        <twitter-login></twitter-login>
+
+
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class InterconexionApp extends Polymer.Element {
+            static get is() { return 'interconexion-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'interconexion-app'
+                    },
+                    text: {
+                        type: String,
+                        value: '',
+                        reflectToAttribute: true
+                    },
+                    access_token: {
+                        type: String,
+                        value: ''
+                    },
+                    usuario: {
+                        type: String,
+                        value: ''
+                    },
+
+                };
+            }
+        }
+
+        window.customElements.define(InterconexionApp.is, InterconexionApp);
+    </script>
+</dom-module>
