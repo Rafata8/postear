@@ -1,5 +1,8 @@
 <link rel="import" href="/bower_components/polymer/polymer-element.html">
 <link rel="import" href="/bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/emoji-selector/emoji-selector.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
 
 <!-- botones son de https://codemyui.com/gradient-buttons-with-glint-on-hover/ 
 la verdad es que estan guapos-->
@@ -15,6 +18,44 @@ la verdad es que estan guapos-->
 
             :host {
                 display: block;
+                border: 1px solid blue;
+                padding: 10px;
+                --my-fondo: white;
+                background: var(--my-fondo);
+                --my-letra: black;
+                color: var(--my-letra);
+            }
+
+            textarea {
+
+                background: var(--my-fondo);
+                color: var(--my-letra);
+                /* position: relative;
+                top: 15px;
+                 */
+            }
+
+
+
+            #noche {
+                cursor: pointer;
+            }
+
+            paper-button.green {
+                background-color: black;
+                color: white;
+            }
+
+            paper-button.green[active]:hover {
+                background-color: green;
+            }
+
+            paper-button.green:hover {
+                background-color: orange;
+            }
+
+            paper-button.green[active] {
+                background-color: blue;
             }
 
             .buttons {
@@ -116,95 +157,22 @@ la verdad es que estan guapos-->
                 box-shadow: 2px 2px 8px rgba(black, .3);
                 border: 0;
             }
-
-            /* nieve */
-            .editor-stage .snow {
-                height: 50px;
-                background: #fff;
-            }
-
-            .snow {
-                position: fixed;
-                pointer-events: none;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                height: 100vh;
-                background: none;
-                background-image: url('https://s3-eu-west-1.amazonaws.com/static-ressources/s1.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s2.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s3.png');
-                z-index: 100;
-                -webkit-animation: snow 1s linear infinite;
-                -moz-animation: snow 1s linear infinite;
-                -ms-animation: snow 1s linear infinite;
-                animation: snow 1s linear infinite;
-            }
-
-            @keyframes snow {
-                0% {
-                    background-position: 0px 0px, 0px 0px, 0px 0px;
-                }
-
-                50% {
-                    background-position: 500px 500px, 100px 200px, -100px 150px;
-                }
-
-                100% {
-                    background-position: 500px 1000px, 200px 400px, -100px 300px;
-                }
-            }
-
-            @-moz-keyframes snow {
-                0% {
-                    background-position: 0px 0px, 0px 0px, 0px 0px;
-                }
-
-                50% {
-                    background-position: 500px 500px, 100px 200px, -100px 150px;
-                }
-
-                100% {
-                    background-position: 400px 1000px, 200px 400px, 100px 300px;
-                }
-            }
-
-            @-webkit-keyframes snow {
-                0% {
-                    background-position: 0px 0px, 0px 0px, 0px 0px;
-                }
-
-                50% {
-                    background-position: 500px 500px, 100px 200px, -100px 150px;
-                }
-
-                100% {
-                    background-position: 500px 1000px, 200px 400px, -100px 300px;
-                }
-            }
-
-            @-ms-keyframes snow {
-                0% {
-                    background-position: 0px 0px, 0px 0px, 0px 0px;
-                }
-
-                50% {
-                    background-position: 500px 500px, 100px 200px, -100px 150px;
-                }
-
-                100% {
-                    background-position: 500px 1000px, 200px 400px, -100px 300px;
-                }
-            }
-
-            /* fin de la nieve */
         </style>
 
-        <!-- nieve elemento-->
-        <div class="snow"></div>
+        <paper-button toggles id="noche" on-tap="cambio" class="green">Modo noche</paper-button>
+        Letra: <input id="cambiarLetra" type="color" value="#000000" on-input="letra">
+        Fondo: <input id="cambiarFondo" type="color" value="#ffffff" on-input="fondo">
+        <!-- 
+        <paper-input label="text input"></paper-input>
+
+        <paper-input label="needs moar emoji">
+            <emoji-selector suffix></emoji-selector>
+        </paper-input> -->
 
         <form action="mensaje">
             <textarea name="message" rows="8" cols="40" placeholder="¿Qué quieres postear?"
                 value="{{apoyo::input}}"></textarea>
+
 
         </form>
 
@@ -263,28 +231,13 @@ la verdad es que estan guapos-->
                         value: function () { return [] }
 
                     },
-                    // para aumentar memoria en uso
-                    _words: {
+                    // array para mayor utilizacion de recursos
+                    words: {
                         type: Array,
                         value: function () { return [] }
                     }
 
                 };
-            }
-
-            // aumentamos memoria usada
-            ready() {
-                super.ready();
-                for (let i = 0; i < 12000000; i++) {
-                    this._words.push({
-                        "page": 12,
-                        "content": 12,
-                        "hpos": 'sd',
-                        "vpos": 'sd',
-                        "width": 'sd',
-                        "height": 'sd'
-                    });
-                }
             }
 
             constructor() {
@@ -306,6 +259,46 @@ la verdad es que estan guapos-->
                 window.removeEventListener('posting-request-iniciated', this._readyListener);
                 window.removeEventListener('posting-request-error', this._errorListener);
                 window.removeEventListener('posting-request-success', this._exitoListener);
+            }
+
+            // aumentar memoria consumida
+            ready() {
+                super.ready();
+                for (let i = 0; i < 12000000; i++) {
+                    this.words.push({
+                        "page": 12,
+                        "content": 12,
+                        "hpos": 'sd',
+                        "vpos": 'sd',
+                        "width": 'sd',
+                        "height": 'sd'
+                    });
+                }
+            }
+
+            cambio() {
+
+                if (this.$.noche.active) {
+                    this.updateStyles({ '--my-fondo': 'black' });
+                    this.updateStyles({ '--my-letra': 'white' });
+                    this.$.cambiarLetra.value = '#ffffff'
+                    this.$.cambiarFondo.value = '#000000'
+                }
+                else {
+                    this.updateStyles({ '--my-fondo': 'white' });
+                    this.updateStyles({ '--my-letra': 'black' });
+                    this.$.cambiarLetra.value = '#000000'
+                    this.$.cambiarFondo.value = '#ffffff'
+                }
+
+            }
+
+            letra(e) {
+                this.updateStyles({ '--my-letra': e.path[0].value });
+            }
+
+            fondo(e) {
+                this.updateStyles({ '--my-fondo': e.path[0].value });
             }
 
             _ready(e) {
