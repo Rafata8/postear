@@ -103,6 +103,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     value: "https://centauro.ls.fi.upm.es/api/oauth/twitter/request_token",
                     reflectToAttribute: true
                 },
+                access_token: {
+                    type: String,
+                    value: "",
+                    reflectToAttribute: true,
+                    notify: true
+                },
                 logged: {
                     type: Boolean,
                     value: false,
