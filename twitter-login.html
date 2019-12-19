@@ -118,6 +118,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     value: false,
                     reflectToAttribute: true
                 },
+                access_token: {
+                    type: String,
+                    value: "",
+                    reflectToAttribute: true,
+                    notify: true
+                },
             },
             _largeAndDisconnected: function (logged, sort) {
                 return !logged && !sort;
